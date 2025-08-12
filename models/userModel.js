@@ -9,6 +9,7 @@ const users = [
   }
   
   function getUserById(id) {
+    console.log("this is test")
     return users.find(user => user.id === id);
   }
   
