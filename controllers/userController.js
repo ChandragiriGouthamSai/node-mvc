@@ -1,18 +1,28 @@
 // controllers/userController.js
 const UserModel = require('../models/userModel');
 
-function getUsers(req, res) {
-  const users = UserModel.getAllUsers();
-  res.json(users);
+async function getUsers(req, res) {
+  try {
+    const users = await UserModel.getAllUsers();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Database error' });
+  }
 }
 
-function getUser(req, res) {
-  const id = parseInt(req.params.id);
-  const user = UserModel.getUserById(id);
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: 'User not found' });
+async function getUser(req, res) {
+  try {
+    const id = parseInt(req.params.id);
+    const user = await UserModel.getUserById(id);
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Database error' });
   }
 }
 
